@@ -10,7 +10,7 @@ function row(i){
   var u=safe(i.url),d=[i.date,i.android&&"Android "+i.android,i.size,i.by&&"by "+i.by].filter(Boolean).map(esc).join(" · ");
   var more=(i.changelog&&i.changelog.length)||(i.bugs&&i.bugs.length)||(i.fixed&&i.fixed.length)||i.sha256;
   return"<article class='row'><div><h3>"+esc(i.name)+" "+(i.status?"<span class='tag'>"+esc(i.status)+"</span>":"")+"</h3><div class='meta'>"+d+"</div>"+(i.note?"<div>"+esc(i.note)+"</div>":"")+"</div>"+
-  "<div class='act'>"+(u?"<a class='btn' href='"+esc(u)+"' target='_blank' rel='noopener noreferrer'>Download</a><span class='tag'>"+esc(host(u))+"</span>":"<span class='btn soon'>Soon</span>")+
+  "<div class='act'>"+(u?"<a class='btn' href='"+esc(u)+"' target='_blank' rel='noopener noreferrer'>Download</a>":"<span class='btn soon'>Soon</span>")+
   (i.guide?"<a class='btn ghost' href='#/guides/"+esc(i.guide)+"'>Guide</a>":"")+"</div>"+
   (more?"<details><summary>Details</summary>"+(i.changelog&&i.changelog.length?"<b>Changelog</b>"+list(i.changelog):"")+(i.fixed&&i.fixed.length?"<b>Fixed</b>"+list(i.fixed,"fix"):"")+(i.bugs&&i.bugs.length?"<b>Known bugs</b>"+list(i.bugs,"bug"):"")+(i.sha256?"<div><b>SHA256</b> <code>"+esc(i.sha256)+"</code> <button class='btn ghost' data-copy='"+esc(i.sha256)+"'>Copy</button></div>":"")+"</details>":"")+"</article>";
 }
