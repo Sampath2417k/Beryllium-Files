@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="POCO F1 (beryllium) file hub for ROMs, kernels, recoveries, root tools, firmware, and guides.">
+    <meta name="theme-color" content="#121212">
+    <title>POCO F1 Files Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📱</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>POCO F1 (beryllium) Files</h1>
+            <p>Unofficial repository for POCO F1 firmware, kernels, and tools.</p>
+        </header>
+
+        <section id="filters">
+            <input type="text" id="searchInput" placeholder="Search by name, notes, version...">
+            <div class="chip-group" id="categoryChips">
+                <button class="chip active" data-cat="all">All</button>
+                <button class="chip" data-cat="ROM">ROM</button>
+                <button class="chip" data-cat="Kernel">Kernel</button>
+                <button class="chip" data-cat="Recovery">Recovery</button>
+                <button class="chip" data-cat="Root">Root</button>
+                <button class="chip" data-cat="Firmware">Firmware</button>
+                <button class="chip" data-cat="Guide">Guide</button>
+                <button class="chip" data-cat="Tool">Tool</button>
+            </div>
+        </section>
+
+        <main id="fileList">
+            <!-- Rendered by app.js -->
+        </main>
+
+        <section id="beforeFlash">
+            <h2>Before You Flash</h2>
+            <ul>
+                <li>Unlock your bootloader.</li>
+                <li>Backup all your data.</li>
+                <li>Ensure battery is above 60%.</li>
+                <li>Verify file checksums (SHA256).</li>
+                <li><strong>Disclaimer:</strong> I am not responsible for bricked devices. Proceed at your own risk.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>FAQ</h2>
+            <dl>
+                <dt>How do I open MEGA links?</dt>
+                <dd>Click the "Download (MEGA)" button. It opens in a new tab. For large files, MEGA may prompt you to use their desktop app for better performance.</dd>
+                <dt>How do I flash a ROM zip?</dt>
+                <dd>Boot into custom recovery (TWRP/OrangeFox) → Wipe data/cache/dalvik → Install → Select ROM zip → Swipe to flash → Reboot.</dd>
+                <dt>How do I flash a kernel?</dt>
+                <dd>Same as ROM: boot to recovery → Install → Select kernel zip → Swipe to flash → Reboot. Some kernels need specific ROM compatibility.</dd>
+                <dt>How do I flash stock firmware (fastboot)?</dt>
+                <dd>Boot to fastboot mode (Power + Volume Down) → Connect via USB → Run flash script or flash partitions manually with <code>fastboot flash <partition> <file.img></code>.</dd>
+                <dt>What if my device won't boot?</dt>
+                <dd>Try booting to recovery (Power + Volume Up) and restore a backup, or re-flash stock firmware via fastboot/EDL mode.</dd>
+            </dl>
+        </section>
+
+        <footer>
+            <p>Unofficial. Not affiliated with Xiaomi/POCO.<br>
+            Maintained by <a href="https://github.com/sampath2417k" target="_blank" rel="noopener noreferrer">sampath2417k</a></p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
