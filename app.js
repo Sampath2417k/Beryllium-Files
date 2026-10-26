@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const fileList = document.getElementById('fileList');
     const searchInput = document.getElementById('searchInput');
-    const chips = document.querySelectorAll('.chip');
+    const tabs = document.querySelectorAll('.tab');
     let files = [];
     let currentCategory = 'all';
 
@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const query = searchInput.value.toLowerCase();
         const filtered = files.filter(f => {
             const matchesCat = currentCategory === 'all' || f.category === currentCategory;
-            const matchesSearch = f.name.toLowerCase().includes(query) || 
-                                  f.notes.toLowerCase().includes(query) || 
+            const matchesSearch = f.name.toLowerCase().includes(query) ||
+                                  f.notes.toLowerCase().includes(query) ||
                                   f.version.toLowerCase().includes(query);
             return matchesCat && matchesSearch;
         });
@@ -35,19 +35,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         fileList.innerHTML = filtered.map(f => `
             <article class="card">
-                <h3>${escapeHtml(f.name)}</h3>
-                <dl>
-                    <dt>Version</dt><dd>${escapeHtml(f.version)}</dd>
-                    <dt>Android</dt><dd>${escapeHtml(f.android)}</dd>
-                    <dt>Date</dt><dd>${escapeHtml(f.date)}</dd>
-                    <dt>Size</dt><dd>${escapeHtml(f.size)}</dd>
-                    <dt>Maintainer</dt><dd>${escapeHtml(f.maintainer)}</dd>
-                </dl>
-                <p>${escapeHtml(f.notes)}</p>
-                <div class="actions">
-                    <a href="${escapeHtml(f.mega)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download (MEGA)</a>
-                    ${f.sha256 ? `<button class="btn btn-secondary" onclick="copySha256('${escapeHtml(f.sha256)}', this)">Copy SHA256</button>` : ''}
+                <div class="card-top">
+                    <div class="card-left">
+                        <h3 class="name">${escapeHtml(f.name)}</h3>
+                        <div class="meta">
+                            <span>${escapeHtml(f.version)}</span>
+                            <span>Android ${escapeHtml(f.android)}</span>
+                            <span>${escapeHtml(f.date)}</span>
+                            <span>${escapeHtml(f.size)}</span>
+                            <span>${escapeHtml(f.maintainer)}</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="${escapeHtml(f.mega)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Download (MEGA)</a>
+                        ${f.sha256 ? `<button class="btn" onclick="copySha256('${escapeHtml(f.sha256)}', this)">Copy SHA256</button>` : ''}
+                    </div>
                 </div>
+                <p class="notes">${escapeHtml(f.notes)}</p>
             </article>
         `).join('');
     }
@@ -66,12 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     searchInput.addEventListener('input', render);
-    chips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            chips.forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            currentCategory = chip.dataset.cat;
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => {
+                t.removeAttribute('aria-selected');
+            });
+            tab.setAttribute('aria-selected', 'true');
+            currentCategory = tab.dataset.cat;
             render();
+        });
+    });
+
+    // Keyboard navigation for tabs
+    tabs.forEach((tab, i) => {
+        tab.addEventListener('keydown', e => {
+            let target = null;
+            if (e.key === 'ArrowRight') target = tabs[(i + 1) % tabs.length];
+            else if (e.key === 'ArrowLeft') target = tabs[(i - 1 + tabs.length) % tabs.length];
+            else if (e.key === 'Home') target = tabs[0];
+            else if (e.key === 'End') target = tabs[tabs.length - 1];
+            if (target) { e.preventDefault(); target.focus(); target.click(); }
         });
     });
 });
